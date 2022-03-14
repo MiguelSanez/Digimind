@@ -139,7 +139,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/set_time"
-        android:background="?android:attr/selectableItemBackground"/>
+        android:background="@drawable/round_button"/>
 
     <Button
         android:id="@+id/aceptar"
@@ -147,5 +147,6 @@
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:layout_gravity="center"
+        android:background="@drawable/round_button"
         android:text="Save" />
 </LinearLayout>
