@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.GridView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Observer
@@ -19,8 +20,11 @@ import sanez.miguel.mydigimind.Recordatorio
 
 class HomeFragment : Fragment() {
     private lateinit var homeViewModel:HomeViewModel
-    var carrito = Carrito()
     private var adapter: RecordatorioAdapter? = null
+    companion object{
+        var recordatorio = ArrayList<Recordatorio>()
+        var first = true
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,21 +36,24 @@ class HomeFragment : Fragment() {
         homeViewModel.text.observe(viewLifecycleOwner, Observer{
 
         })
+        if(first){
+            fillTask()
+            first = false
+        }
+        adapter = RecordatorioAdapter(root.context, recordatorio)
+        val table : GridView = root.findViewById(R.id.gridView)
+        table.adapter = adapter
+
         return root
     }
 
-    @SuppressLint("ResourceType")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        var key = "recordatorio"
-        var bundle = Bundle()
-        setFragmentResultListener("key") { recordatorio, bundle ->
-            val result: Recordatorio = bundle.getSerializable("recordatorio") as Recordatorio
-            carrito.agregar(result)
-            adapter = RecordatorioAdapter(context,carrito.recordatorio)
-            gridView.adapter = adapter
-        }
-
+    fun fillTask(){
+        recordatorio.add(Recordatorio(arrayListOf("Tuesday"),"17:30","Tarea 1"))
+        recordatorio.add(Recordatorio(arrayListOf("Monday","Tuesday"),"17:30","Tarea 2"))
+        recordatorio.add(Recordatorio(arrayListOf("Wednesday"),"17:30","Tarea 3"))
+        recordatorio.add(Recordatorio(arrayListOf("Wednesday"),"17:30","Tarea 4"))
+        recordatorio.add(Recordatorio(arrayListOf("Friday"),"17:30","Tarea 5"))
+        recordatorio.add(Recordatorio(arrayListOf("Wednesday"),"17:30","Tarea 6"))
     }
     class RecordatorioAdapter: BaseAdapter {
         var recordatorio = ArrayList<Recordatorio>()
